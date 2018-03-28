@@ -1,0 +1,251 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:sys ="clr-namespace:System;assembly=mscorlib">
+
+    <!--#region 基础文本-->
+    <sys:String x:Key="LanguageName">
+        简体中文
+    </sys:String>
+    <sys:String x:Key="WindowTitleText">
+        SC2 编码转换器
+    </sys:String>
+    <!--#endregion 基础文本-->
+
+    <!--#region 控件文本-->
+    <sys:String x:Key="UIText_RibbonTabeItem_ConvertConfig_Header">
+        转换配置
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_LanguageConfig_Header">
+        语言配置
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonComboBox_Language_Header">
+        软件语言：
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Automatic_Content">
+        自动
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Encode_Content">
+        编码
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Decode_Content">
+        解码
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_ProcessingMode_Header">
+        处理方式
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_ConvertConfig_Header">
+        转码配置
+    </sys:String>
+    <sys:String x:Key="UIText_CheckBox_ProcessASCII_Header">
+        处理ASCII
+    </sys:String>
+    <sys:String x:Key="UIText_CheckBox_UppercaseCharacters_Header">
+        大写字符
+    </sys:String>
+    <sys:String x:Key="UIText_CheckBox_XMLTranscode_Header">
+        XML转码
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_ConventMode_Header">
+        转换方案
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_OriginalContent_Content">
+        原始内容（直接转码）
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_AsString_Content">
+        作为字符（带引号）
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_AsText_Content">
+        作为文本（带转换函数）
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_DebugMsg_Content">
+        调试消息（带转换函数）
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_FormatConfig_Header">
+        格式配置
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBox_CharacterCodeRuleType_Header">
+        编码规则:
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBox_ConvertingScaleType_Header">
+        转换进制:
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBox_AdditionTextType_Header">
+        附加配置:
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonTabeItem_SoftwareConfig_Header">
+        软件配置
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Utf8_Header">
+        UTF-8
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Utf16_Header">
+        UTF-16
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_Utf32_Header">
+        UTF-32
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_FormatStringNumberType16_Content">
+        十六进制
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_FormatStringNumberType10_Content">
+        十进制
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_FormatStringNumberType8_Content">
+        八进制
+    </sys:String>
+    <sys:String x:Key="UIText_ComboBoxItem_FormatStringNumberType2_Content">
+        二进制
+    </sys:String>
+    <sys:String x:Key="UIText_TextBox_Prefix_Header">
+        前缀：
+    </sys:String>
+    <sys:String x:Key="UIText_TextBox_Suffix_Header">
+        后缀：
+    </sys:String>
+    <sys:String x:Key="UIText_TextBox_RegularExpression_Header">
+        正则：
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_SC2DefaultConfig_Header">
+        SC2默认
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_EmptyConfig_Header">
+        空
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_SC2UIXmlConfig_Header">
+        Layout
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_CustomConfig_Header">
+        自定义
+    </sys:String>
+    <sys:String x:Key="UIText_MenuItem_DelectConvertModeItem_Header">
+        删除
+    </sys:String>
+    <sys:String x:Key="UIText_MenuItem_ConventModeSave_Header">
+        保存当前模式
+    </sys:String>
+    <sys:String x:Key="UIText_GalleryGroupFilter_Current_Header">
+        当前方案
+    </sys:String>
+    <sys:String x:Key="UIText_GalleryGroupFilter_Default_Header">
+        默认方案
+    </sys:String>
+    <sys:String x:Key="UIText_GalleryGroupFilter_Custom_Header">
+        自定方案
+    </sys:String>
+    <sys:String x:Key="UIText_GalleryGroupFilter_Other_Header">
+        其他
+    </sys:String>
+    <sys:String x:Key="UIText_GalleryGroupFilter_All_Header">
+        全部方案
+    </sys:String>
+    <sys:String x:Key="UIText_SC2_NewConvertModeWindow_Title_Header">
+        新转换模式
+    </sys:String>
+    <sys:String x:Key="UIText_GroupBox_SaveConfig_Header">
+        保存配置
+    </sys:String>
+    <sys:String x:Key="UIText_TextBlock_ModeName_Header">
+        模式名称
+    </sys:String>
+    <sys:String x:Key="UIText_Button_Confirm_Header">
+        确定
+    </sys:String>
+    <sys:String x:Key="UIText_Button_Cancel_Header">
+        取消
+    </sys:String>
+    <sys:String x:Key="UIText_GroupBox_Input_Header">
+        输入
+    </sys:String>
+    <sys:String x:Key="UIText_GroupBox_Output_Header">
+        输出
+    </sys:String>
+    <sys:String x:Key="UIText_RibbonGroupBox_TextConfig_Header">
+        文本配置
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_AutoWarp_Header">
+        自动换行
+    </sys:String>
+    <sys:String x:Key="UIText_ToggleButton_ShowLineNumber_Header">
+        显示行号
+    </sys:String>
+    <!--#endregion 控件文本-->
+
+    <!--#region 消息文本-->
+    <sys:String x:Key="Message_SC2_NewConvertModeWindow_DuplicateName_Text0">
+        您输入的名称已经存在，请重新输入！
+    </sys:String>
+    <sys:String x:Key="Message_SC2_NewConvertModeWindow_DuplicateName_Cation">
+        错误
+    </sys:String>
+    <!--#endregion 消息文本-->
+
+    <!--#region 提示文本-->
+    <sys:String x:Key="ToolTip_ToggleButton_ConvetModeEncode">
+        将文本编码为UTF格式的文本。
+    </sys:String>
+    <sys:String x:Key="ToolTip_ToggleButton_ConvetModeDecode">
+        将UTF格式的文本解码。（仅处理符合配置的编码字符）
+    </sys:String>
+    <sys:String x:Key="ToolTip_CheckBox_ProcessASCII">
+        勾选表示对SE支持的ASCII编码字符集内的字符进行转码，否则直接以原始字符样式显示。(最好进行全部转码部分在转码字符后的ASCII字符可能导致转义失败， 仅在编码过程中有效)
+    </sys:String>
+    <sys:String x:Key="ToolTip_CheckBox_UppercaseCharacters">
+        勾选表示转码结果的十六进制字符采用大写字符，否则为小写字符。（仅在编码过程中有效)
+    </sys:String>
+    <sys:String x:Key="ToolTip_CheckBox_XMLTranscode">
+        勾选表示转码过程中优先处理XML转义字符，否则不处理XML转义字符。
+    </sys:String>
+    <sys:String x:Key="ToolTip_ComboBox_CharacterCodeRuleType">
+        选择编码规则，可以选择Utf-8、Utf-16和Utf-32中的任意一个。
+    </sys:String>
+    <sys:String x:Key="ToolTip_ComboBox_ConvertingScaleType">
+        选择编码进制，编码解码过程中编码数值的进制，可以选择十六进制、十进制、八进制和二进制中任意一个。
+    </sys:String>
+    <sys:String x:Key="ToolTip_ComboBox_AdditionTextType">
+        选择附加文本类型，即对转码结果额外的增加或者去除格式文本，可以选择原始内容（直接转码）、作为字符（带引号）、作为文本（带转换函数）和调试消息（带转换函数）中任意一个。
+    </sys:String>
+    <sys:String x:Key="ToolTip_TextBox_Prefix">
+        每个编码值的前缀，如果为UTF-8模式，那么每Byte编码值都会有一个前缀。
+    </sys:String>
+    <sys:String x:Key="ToolTip_TextBox_Suffix">
+        每个编码值的后缀，如果为UTF-8模式，那么每Byte编码值都会有一个后缀。
+    </sys:String>
+    <sys:String x:Key="ToolTip_TextBox_RegularExpression">
+        匹配正则表达式的字符会被转码，其它字符不会。如果正则表达式为空，则全部字符都会被转码。（仅在编码过程中有效)
+    </sys:String>
+    <!--#endregion 提示文本-->
+
+    <!--#region 名称文本-->
+    <sys:String x:Key="NameText_Constant_BaseConvertModeName_Prefix">
+        模式
+    </sys:String>
+    <!--#endregion 名称文本-->
+
+    <!--#region Error Text-->
+    <sys:String x:Key="ErrorText_ALL_Exception_CallStack_Header">
+        调用堆栈：
+    </sys:String>
+    <sys:String x:Key="ErrorText_ALL_Exception_MessageBox_Caption">
+        异常!
+    </sys:String>
+    <sys:String x:Key="ErrorText_ReadConfig_Exception_MessageBox_Text">
+        读取配置失败. 请删除SC2编码转换器根目录下的"config.json"来重置到默认配置。
+    </sys:String>
+    <sys:String x:Key="ErrorText_Decode_AdditionType_DebugMsg_0">
+        找不到符合调试消息格式的字符串!
+    </sys:String>
+    <sys:String x:Key="ErrorText_Decode_AdditionType_AsText_0">
+        找不到符合文本格式的字符串!
+    </sys:String>
+    <sys:String x:Key="ErrorText_Decode_AdditionType_AsString_0">
+        找不到符合字符串格式的字符串!
+    </sys:String>
+    <sys:String x:Key="ErrorText_Encode_RegularExpression_ErrorSyntex_0">
+        配置内容不符合正则表达式语法!
+    </sys:String>
+    <sys:String x:Key="ErrorText_Encode_RegularExpression_NoMatch_0">
+        找不到匹配正则表达式文本的字符串!
+    </sys:String>
+    <!--#endregion Error Text-->
+    
+</ResourceDictionary>

@@ -1,0 +1,15 @@
+﻿<Application x:Class="SC2_UnicodeConverter.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SC2_UnicodeConverter"
+             StartupUri="SC2_UnicodeConverter_Window.xaml">
+    <Application.Resources>
+        <ResourceDictionary x:Name="ApplicatioLanguage">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/Fluent;Component/Themes/Generic.xaml"/>
+                <ResourceDictionary Source="Assets/Assets.xaml"/>
+                <ResourceDictionary Source="Assets/Style.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

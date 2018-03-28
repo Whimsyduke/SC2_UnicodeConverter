@@ -1,0 +1,97 @@
+﻿<fluent:RibbonWindow x:Class="SC2_UnicodeConverter.SC2_UnicodeConverter_Window"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SC2_UnicodeConverter"
+        xmlns:commonControl="clr-namespace:WH_CommonControlLibrary.UIControl.Control;assembly=WH_CommonControlLibrary"
+        xmlns:fluent="urn:fluent-ribbon"
+        xmlns:avalon="http://icsharpcode.net/sharpdevelop/avalonedit"
+        Icon="pack://application:,,,/Ico.ico"
+        Height="768"
+        Width="1366"
+        MinHeight="600"
+        MinWidth="800" Initialized="RibbonWindow_Initialized" Closing="RibbonWindow_Closing">
+    <Window.Resources>
+        <ResourceDictionary x:Name="WindowLanguage">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Language\Default.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <fluent:Ribbon Name="Ribbon_Main" Grid.Row="0">
+            <fluent:Ribbon.ContextualGroups>
+                <fluent:RibbonContextualTabGroup x:Name="RibbonCTG_GlobalConfig" BorderBrush="Magenta" Background="Magenta" Foreground="Purple" Visibility="Visible"/>
+            </fluent:Ribbon.ContextualGroups>
+            <fluent:RibbonTabItem Name="RibbonTabeItem_ConvertConfig" Header="{DynamicResource ResourceKey=UIText_RibbonTabeItem_ConvertConfig_Header}">
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_ConvertMode" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_ProcessingMode_Header}" Grid.IsSharedSizeScope="True">
+                    <fluent:InRibbonGallery Name="InRibbonGallery_ProcessingMode" ResizeMode="Both">
+                        <fluent:ToggleButton Name="ToggleButton_ConvetModeEncode" SizeDefinition="Large" LargeIcon="{StaticResource ResourceKey=IMAGE_EncodeMode}" GroupName="ProcessingMode" Header="{DynamicResource ResourceKey=UIText_ComboBoxItem_Encode_Content}" Width="70" Checked="ToggleButton_ProcessMode_Checked" Tag="{x:Static local:SC2_UnicodeConverter_Window+EnumProcessingMode.Encode}" ToolTip="{DynamicResource ResourceKey=ToolTip_ToggleButton_ConvetModeEncode}"/>
+                        <fluent:ToggleButton Name="ToggleButton_ConvetModeDecode" SizeDefinition="Large" LargeIcon="{StaticResource ResourceKey=IMAGE_DecodeMode}" GroupName="ProcessingMode" Header="{DynamicResource ResourceKey=UIText_ComboBoxItem_Decode_Content}" Width="70" Checked="ToggleButton_ProcessMode_Checked" Tag="{x:Static local:SC2_UnicodeConverter_Window+EnumProcessingMode.Decode}" ToolTip="{DynamicResource ResourceKey=ToolTip_ToggleButton_ConvetModeDecode}"/>
+                    </fluent:InRibbonGallery>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_ConventMode" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_ConventMode_Header}" Grid.IsSharedSizeScope="True" >
+                    <fluent:InRibbonGallery Name="InRibbonGallery_ConventMode" CanCollapseToButton="True" Height="60" VerticalAlignment="Top" IsUseTranslateGroupName="True" ResizeMode="Both" MaxItemsInRow="6">
+                        <fluent:InRibbonGallery.Filters>
+                            <fluent:GalleryGroupFilter Title="UIText_GalleryGroupFilter_All_Header" Groups="UIText_GalleryGroupFilter_Current_Header,UIText_GalleryGroupFilter_Default_Header,UIText_GalleryGroupFilter_Custom_Header,UIText_GalleryGroupFilter_Other_Header" />
+                            <fluent:GalleryGroupFilter Title="UIText_GalleryGroupFilter_Current_Header" Groups="UIText_GalleryGroupFilter_Current_Header,UIText_GalleryGroupFilter_Other_Header" />
+                            <fluent:GalleryGroupFilter Title="UIText_GalleryGroupFilter_Default_Header" Groups="UIText_GalleryGroupFilter_Default_Header,UIText_GalleryGroupFilter_Other_Header" />
+                            <fluent:GalleryGroupFilter Title="UIText_GalleryGroupFilter_Custom_Header" Groups="UIText_GalleryGroupFilter_Custom_Header,UIText_GalleryGroupFilter_Other_Header" />
+                        </fluent:InRibbonGallery.Filters>       
+                    </fluent:InRibbonGallery>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_ConvertConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_ConvertConfig_Header}" Grid.IsSharedSizeScope="True">
+                    <fluent:CheckBox Name="CheckBox_ProcessASCII" Header="{DynamicResource ResourceKey=UIText_CheckBox_ProcessASCII_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_CheckBox_ProcessASCII}" Checked="CheckBox_ProcessASCII_Checked" Unchecked="CheckBox_ProcessASCII_Unchecked" IsEnabled="{Binding ElementName=ToggleButton_ConvetModeEncode,Path=IsChecked}"/>
+                    <fluent:CheckBox Name="CheckBox_UppercaseCharacters" Header="{DynamicResource ResourceKey=UIText_CheckBox_UppercaseCharacters_Header}"  ToolTip="{DynamicResource ResourceKey=ToolTip_CheckBox_UppercaseCharacters}" Unchecked="CheckBox_UppercaseCharacters_Unchecked" Checked="CheckBox_UppercaseCharacters_Checked" IsEnabled="{Binding ElementName=ToggleButton_ConvetModeEncode,Path=IsChecked}"/>
+                    <fluent:CheckBox Name="CheckBox_XMLTranscode" Header="{DynamicResource ResourceKey=UIText_CheckBox_XMLTranscode_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_CheckBox_XMLTranscode}" Checked="CheckBox_XMLTranscode_Checked" Unchecked="CheckBox_XMLTranscode_Unchecked"/>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_FormatConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_FormatConfig_Header}" Grid.IsSharedSizeScope="True">
+                    <fluent:ComboBox Name="ComboBox_CharacterCodeRuleType" Header="{DynamicResource ResourceKey=UIText_ComboBox_CharacterCodeRuleType_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_ComboBox_CharacterCodeRuleType}" VerticalContentAlignment="Center" Icon="{StaticResource ResourceKey=IMAGE_CharacterCodeRuleType}" SelectionChanged="ComboBox_CharacterCodeRuleType_SelectionChanged" InputWidth="250" ResizeMode="Vertical" IsEditable="False">
+                        <ComboBoxItem Name="ComboBoxItem_Utf8" Content="{DynamicResource UIText_ComboBoxItem_Utf8_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf8}" IsSelected="True"/>
+                        <ComboBoxItem Name="ComboBoxItem_Utf16" Content="{DynamicResource UIText_ComboBoxItem_Utf16_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf16}"/>
+                        <ComboBoxItem Name="ComboBoxItem_Utf32" Content="{DynamicResource UIText_ComboBoxItem_Utf32_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf32}"/>
+                    </fluent:ComboBox>
+                    <fluent:ComboBox Name="ComboBox_ConvertingScaleType" Header="{DynamicResource ResourceKey=UIText_ComboBox_ConvertingScaleType_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_ComboBox_ConvertingScaleType}" VerticalContentAlignment="Center" Icon="{StaticResource ResourceKey=IMAGE_ConvertingScaleType}" SelectionChanged="ComboBox_ConvertingScaleType_SelectionChanged" InputWidth="250" ResizeMode="Both" IsEditable="False">
+                        <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType16" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType16_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType16}" IsSelected="True"/>
+                        <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType10" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType10_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType10}"/>
+                        <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType8" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType8_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType8}"/>
+                        <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType2" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType2_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType2}"/>
+                    </fluent:ComboBox>
+                    <fluent:ComboBox Name="ComboBox_AdditionTextType" Header="{DynamicResource ResourceKey=UIText_ComboBox_AdditionTextType_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_ComboBox_AdditionTextType}" VerticalContentAlignment="Center" Icon="{StaticResource ResourceKey=IMAGE_AdditionTextType}" SelectionChanged="ComboBox_AdditionTextType_SelectionChanged" InputWidth="250" ResizeMode="Both" IsEditable="False">
+                        <ComboBoxItem Name="ComboBoxItem_DebugMsg" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_DebugMsg_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.DebugMsg}"/>
+                        <ComboBoxItem Name="ComboBoxItem_AsText" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_AsText_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.AsText}"/>
+                        <ComboBoxItem Name="ComboBoxItem_AsString" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_AsString_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.AsString}"/>
+                        <ComboBoxItem Name="ComboBoxItem_OriginalContent" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_OriginalContent_Content}" IsSelected="True" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.OrigionalContent}"/>
+                    </fluent:ComboBox>
+                    <fluent:TextBox Name="TextBox_Prefix" Header="{DynamicResource ResourceKey=UIText_TextBox_Prefix_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_TextBox_Prefix}" Icon="{StaticResource ResourceKey=IMAGE_Prefix}" TextChanged="TextBox_Prefix_TextChanged" Grid.IsSharedSizeScope="True" InputWidth="300"/>
+                    <fluent:TextBox Name="TextBox_Suffix" Header="{DynamicResource ResourceKey=UIText_TextBox_Suffix_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_TextBox_Suffix}" Icon="{StaticResource ResourceKey=IMAGE_Suffix}" TextChanged="TextBox_Suffix_TextChanged" Grid.IsSharedSizeScope="True" InputWidth="300"/>
+                    <fluent:TextBox Name="TextBox_RegularExpression" Header="{DynamicResource ResourceKey=UIText_TextBox_RegularExpression_Header}" ToolTip="{DynamicResource ResourceKey=ToolTip_TextBox_RegularExpression}" Icon="{StaticResource ResourceKey=IMAGE_RegularExpression}" TextChanged="TextBox_RegularExpression_TextChanged" Grid.IsSharedSizeScope="True" InputWidth="300" IsEnabled="{Binding ElementName=ToggleButton_ConvetModeEncode,Path=IsChecked}"/>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+            <fluent:RibbonTabItem Name="RibbonTabeItem_SoftwareConfig" Header="{DynamicResource ResourceKey=UIText_RibbonTabeItem_SoftwareConfig_Header}">
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_LanguageConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_LanguageConfig_Header}">
+                    <fluent:DropDownButton Name="DropDownButton_Language" Icon="{StaticResource ResourceKey=IMAGE_Language}" LargeIcon="{StaticResource ResourceKey=IMAGE_Language}" Width="80" >
+                        <fluent:Gallery Name="Gallery_LanguageList" MaxItemsInRow="1">
+                        </fluent:Gallery>
+                    </fluent:DropDownButton>
+                </fluent:RibbonGroupBox>
+                <fluent:RibbonGroupBox Name="RibbonGroupBox_TextConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_TextConfig_Header}" >
+                    <fluent:ToggleButton Name="ToggleButton_AutoWarp" Header="{DynamicResource  ResourceKey=UIText_ToggleButton_AutoWarp_Header}" Icon="{StaticResource ResourceKey=IMAGE_AutoWarp}" LargeIcon="{StaticResource ResourceKey=IMAGE_AutoWarp}" Width="60" IsChecked="True"/>
+                    <fluent:ToggleButton Name="ToggleButton_ShowLineNumber" Header="{DynamicResource ResourceKey=UIText_ToggleButton_ShowLineNumber_Header}" Icon="{StaticResource ResourceKey=IMAGE_ShowLineNumber}" LargeIcon="{StaticResource ResourceKey=IMAGE_ShowLineNumber}" Width="60" IsChecked="True"/>
+                </fluent:RibbonGroupBox>
+            </fluent:RibbonTabItem>
+        </fluent:Ribbon>
+        <GroupBox Name="GroupBox_Input" Header="{DynamicResource ResourceKey=UIText_GroupBox_Input_Header}" Grid.Row="1">
+            <avalon:TextEditor Name="TextEditor_Input" Margin="3" WordWrap="{Binding ElementName=ToggleButton_AutoWarp,Path=IsChecked}" ShowLineNumbers="{Binding ElementName=ToggleButton_ShowLineNumber,Path=IsChecked}" HorizontalScrollBarVisibility="Auto" BorderBrush="LightGray" BorderThickness="1" TextChanged="TextEditor_Input_TextChanged"/>
+        </GroupBox>
+        <GroupBox Name="GroupBox_Output" Header="{DynamicResource ResourceKey=UIText_GroupBox_Output_Header}" Grid.Row="2">
+            <avalon:TextEditor Name="TextEditor_Output" IsReadOnly="True" Margin="3" WordWrap="{Binding ElementName=ToggleButton_AutoWarp,Path=IsChecked}" ShowLineNumbers="{Binding ElementName=ToggleButton_ShowLineNumber,Path=IsChecked}" HorizontalScrollBarVisibility="Auto" BorderBrush="LightGray" BorderThickness="1"/>
+        </GroupBox>
+    </Grid>
+</fluent:RibbonWindow>

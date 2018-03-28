@@ -1,0 +1,93 @@
+﻿<Window x:Class="SC2_UnicodeConverter.SC2_NewConvertModeWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:SC2_UnicodeConverter"
+        mc:Ignorable="d"
+        Title="{DynamicResource ResourceKey=UIText_SC2_NewConvertModeWindow_Title_Header}" Height="210" Width="800">
+    <Window.Resources>
+        <ResourceDictionary x:Name="WindowLanguage">
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Language\Default.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <GroupBox Name="RibbonGroupBox_ConvertConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_ConvertConfig_Header}" Grid.Column="0" Grid.Row="0" Margin="3">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <CheckBox Name="CheckBox_ProcessASCII" Content="{DynamicResource ResourceKey=UIText_CheckBox_ProcessASCII_Header}" Grid.Row="0" Margin="3" VerticalAlignment="Center"/>
+                <CheckBox Name="CheckBox_UppercaseCharacters" Content="{DynamicResource ResourceKey=UIText_CheckBox_UppercaseCharacters_Header}" Grid.Row="1" Margin="3" VerticalAlignment="Center"/>
+                <CheckBox Name="CheckBox_XMLTranscode" Content="{DynamicResource ResourceKey=UIText_CheckBox_XMLTranscode_Header}" Grid.Row="2" Margin="3" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Name="RibbonGroupBox_FormatConfig" Header="{DynamicResource ResourceKey=UIText_RibbonGroupBox_FormatConfig_Header}" Grid.Column="1" Grid.Row="0" Margin="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_ComboBox_CharacterCodeRuleType_Header}" Grid.Column="0" Grid.Row="0" Margin="3" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_ComboBox_ConvertingScaleType_Header}" Grid.Column="0" Grid.Row="1" Margin="3" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_ComboBox_AdditionTextType_Header}" Grid.Column="0" Grid.Row="2" Margin="3" VerticalAlignment="Center"/>
+                <ComboBox Name="ComboBox_CharacterCodeRuleType" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="0" Margin="3" VerticalAlignment="Center">
+                    <ComboBoxItem Name="ComboBoxItem_Utf8" Content="{DynamicResource UIText_ComboBoxItem_Utf8_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left" Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf8}"/>
+                    <ComboBoxItem Name="ComboBoxItem_Utf16" Content="{DynamicResource UIText_ComboBoxItem_Utf16_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf16}"/>
+                    <ComboBoxItem Name="ComboBoxItem_Utf32" Content="{DynamicResource UIText_ComboBoxItem_Utf32_Header}" VerticalContentAlignment="Center" HorizontalContentAlignment="Left"  Tag="{x:Static local:SC2_StructConvertMode+EnumCodeRuleType.Utf32}"/>
+                </ComboBox>
+                <ComboBox Name="ComboBox_ConvertingScaleType" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="1" Margin="3" VerticalAlignment="Center">
+                    <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType16" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType16_Content}" IsSelected="True" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType16}"/>
+                    <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType10" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType10_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType10}"/>
+                    <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType8" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType8_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType8}"/>
+                    <ComboBoxItem Name="ComboBoxItem_FormatStringNumberType2" Content="{DynamicResource UIText_ComboBoxItem_FormatStringNumberType2_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumConvertScale.NumberType2}"/>
+                </ComboBox>
+                <ComboBox Name="ComboBox_AdditionTextType" VerticalContentAlignment="Center" Grid.Column="1" Grid.Row="2" Margin="3" VerticalAlignment="Center">
+                    <ComboBoxItem Name="ComboBoxItem_DebugMsg" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_DebugMsg_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.DebugMsg}"/>
+                    <ComboBoxItem Name="ComboBoxItem_AsText" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_AsText_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.AsText}"/>
+                    <ComboBoxItem Name="ComboBoxItem_AsString" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_AsString_Content}" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.AsString}"/>
+                    <ComboBoxItem Name="ComboBoxItem_OriginalContent" Content="{DynamicResource ResourceKey=UIText_ComboBoxItem_OriginalContent_Content}" IsSelected="True" Tag="{x:Static local:SC2_StructConvertMode+EnumAdditionType.OrigionalContent}"/>
+                </ComboBox>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_TextBox_Prefix_Header}" Grid.Column="2" Grid.Row="0" Margin="3" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_TextBox_Suffix_Header}" Grid.Column="2" Grid.Row="1" Margin="3" VerticalAlignment="Center"/>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_TextBox_RegularExpression_Header}" Grid.Column="2" Grid.Row="2" Margin="3" VerticalAlignment="Center"/>
+                <TextBox Name="TextBox_Prefix" Grid.Column="3" Grid.Row="0" Margin="3" VerticalAlignment="Center"/>
+                <TextBox Name="TextBox_Suffix" Grid.Column="3" Grid.Row="1" Margin="3" VerticalAlignment="Center"/>
+                <TextBox Name="TextBox_RegularExpression" Grid.Column="3" Grid.Row="2" Margin="3" VerticalAlignment="Center"/>
+            </Grid>
+        </GroupBox>
+        <GroupBox Name="GroupBox_SaveConfig" Header="{DynamicResource ResourceKey=UIText_GroupBox_SaveConfig_Header}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Margin="3">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="80"/>
+                    <ColumnDefinition Width="80"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="{DynamicResource ResourceKey=UIText_TextBlock_ModeName_Header}" Grid.Column="0" Margin="3" VerticalAlignment="Center"/>
+                <TextBox Name="TextBox_ModeName" Grid.Column="1" Margin="3" VerticalAlignment="Center"/>
+                <Button Name="Button_Confirm" Grid.Column="2" Margin="3" Content="{DynamicResource ResourceKey=UIText_Button_Confirm_Header}" VerticalAlignment="Center" Click="Button_Confirm_Click"/>
+                <Button Name="Button_Cancel" Grid.Column="3" Margin="3" Content="{DynamicResource ResourceKey=UIText_Button_Cancel_Header}" VerticalAlignment="Center" Click="Button_Cancel_Click"/>
+            </Grid>
+        </GroupBox>
+    </Grid>
+</Window>

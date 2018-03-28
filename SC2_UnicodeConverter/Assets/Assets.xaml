@@ -1,0 +1,22 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Image x:Key="IMAGE_Language" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggereditor_newparameter.dds"/>
+    <Image x:Key="IMAGE_LanguageItem" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggercategories_dialog.dds"/>
+    <Image x:Key="IMAGE_EncodeMode" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggereditor_newpresettype.dds"/>
+    <Image x:Key="IMAGE_DecodeMode" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggereditor_newpresetvalue.dds"/>
+    <Image x:Key="IMAGE_CharacterCodeRuleType" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggercategories_transmission.dds"/>
+    <Image x:Key="IMAGE_ConvertingScaleType" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggercategories_math.dds"/>
+    <Image x:Key="IMAGE_AdditionTextType" Source="pack://application:,,,/Assets/Image/ui-editoricon-triggercategories_preset.dds"/>
+    <Image x:Key="IMAGE_Prefix" Source="pack://application:,,,/Assets/Image/ui-editoricon-curveeditor_setin.dds"/>
+    <Image x:Key="IMAGE_Suffix" Source="pack://application:,,,/Assets/Image/ui-editoricon-curveeditor_setout.dds"/>
+    <Image x:Key="IMAGE_RegularExpression" Source="pack://application:,,,/Assets/Image/ui-editoricon-curveeditor_setboth.dds"/>
+    <Image x:Key="IMAGE_SaveMode" Source="pack://application:,,,/Assets/Image/ui-editoricon-general_save.dds"/>
+    <Image x:Key="IMAGE_DeleteMode" Source="pack://application:,,,/Assets/Image/ui-editoricon-data_types_buttons.dds"/>
+    <Image x:Key="IMAGE_AutoWarp" Source="pack://application:,,,/Assets/Image/ui-editoricon-dataeditor_viewrawdata.dds"/>
+    <Image x:Key="IMAGE_ShowLineNumber" Source="pack://application:,,,/Assets/Image/ui-editoricon-dataeditor_detailview.dds"/>
+    <!--<Image x:Key="IMAGE_CustomModeIcon" Source="pack://application:,,,/Assets/Image/ui-editoricons-layers_cameras.dds"/>
+    <Image x:Key="IMAGE_SC2DefaultConfig" Source="pack://application:,,,/Assets/Image/ui-editoricon-scripteditor_launchsc2.dds"/>
+    <Image x:Key="IMAGE_EmptyConfig" Source="pack://application:,,,/Assets/Image/ui-editoricons-layers_regions.dds"/>
+    <Image x:Key="IMAGE_SC2UIXmlConfig" Source="pack://application:,,,/Assets/Image/ui-editoricon-general_ui.dds"/>
+    <Image x:Key="IMAGE_CustomConfig" Source="pack://application:,,,/Assets/Image/ui-editoricon-general_triggers.dds"/>-->
+</ResourceDictionary>
