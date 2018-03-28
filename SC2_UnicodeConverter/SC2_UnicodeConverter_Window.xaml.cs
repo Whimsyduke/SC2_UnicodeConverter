@@ -933,8 +933,6 @@ namespace SC2_UnicodeConverter
         /// <summary>
         /// 设置输入语法高亮
         /// </summary>
-        /// <param name="textEditor">设置控件</param>
-        /// <param name="xshd">高亮配置</param>
         public void SetInputHightlight()
         {
 #if !DEBUG
@@ -1026,6 +1024,15 @@ namespace SC2_UnicodeConverter
                 MessageBox.Show(errMsg, App.CurrentLanguage["ErrorText_ALL_Exception_MessageBox_Caption"] as string, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
 #endif
+        }
+
+
+        /// <summary>
+        /// 设置输出语法高亮
+        /// </summary>
+        public void SetOutputHighlight()
+        {
+
         }
 
         /// <summary>
