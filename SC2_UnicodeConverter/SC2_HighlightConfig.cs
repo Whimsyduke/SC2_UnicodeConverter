@@ -23,21 +23,21 @@ namespace SC2_UnicodeConverter
         public enum EnumConfigTargetType
         {
             /// <summary>
-            /// 输入编码
+            /// 正则匹配范围
             /// </summary>
-            InputEncode,
+            RegexMath,
             /// <summary>
-            /// 输入编码前缀
+            /// 编码前缀
             /// </summary>
-            InputDecodePrefix,
+            DecodePrefix,
             /// <summary>
-            /// 输入编码后缀
+            /// 编码后缀
             /// </summary>
-            InputDecodeSuffix,
+            DecodeSuffix,
             /// <summary>
-            /// 输入编码
+            /// 编码代码
             /// </summary>
-            InputDecodeCode,
+            DecodeCode,
         }
 
         /// <summary>
@@ -101,19 +101,19 @@ namespace SC2_UnicodeConverter
         static SC2_HighlightConfig() => ConfigList = new Dictionary<EnumConfigTargetType, SC2_HighlightConfig>()
         {
             {
-                EnumConfigTargetType.InputEncode,
+                EnumConfigTargetType.RegexMath,
                 new SC2_HighlightConfig("Red", "", "bold", EnumFontStyle.normal, false)
             },
             {
-                EnumConfigTargetType.InputDecodePrefix,
+                EnumConfigTargetType.DecodePrefix,
                 new SC2_HighlightConfig("Yellow", "Green", "", EnumFontStyle.normal, false)
             },
             {
-                EnumConfigTargetType.InputDecodeSuffix,
+                EnumConfigTargetType.DecodeSuffix,
                 new SC2_HighlightConfig("Yellow", "Blue", "", EnumFontStyle.normal, false)
             },
             {
-                EnumConfigTargetType.InputDecodeCode,
+                EnumConfigTargetType.DecodeCode,
                 new SC2_HighlightConfig("Red", "Yellow", "bold", EnumFontStyle.normal, false)
             },
         };

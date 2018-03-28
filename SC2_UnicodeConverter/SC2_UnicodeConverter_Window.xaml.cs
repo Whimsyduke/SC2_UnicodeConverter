@@ -88,7 +88,7 @@ namespace SC2_UnicodeConverter
         #region 字段
         private readonly Regex RegexDecodeString = new Regex("(?<=\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\")", RegexOptions.Compiled);
         private readonly Regex RegexDecodeText = new Regex("(?<=StringToText\\s*\\(\\s*\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\"\\s*\\))", RegexOptions.Compiled);
-        private readonly Regex RegexDecodeDebugMsg = new Regex("(?<=TriggerDebugOutput\\s*\\(\\s*1,\\s*StringToText\\s*\\(\\s*\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\"\\s*\\)\\s*,)", RegexOptions.Compiled);
+        private readonly Regex RegexDecodeDebugMsg = new Regex("(?<=TriggerDebugOutput\\s*\\(\\s*\\d+,\\s*StringToText\\s*\\(\\s*\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\"\\s*\\)\\s*,)", RegexOptions.Compiled);
         private readonly Regex RegexIsProcessASCII = new Regex("[\\u0000-\\u0009\\u000b\\u000c\\u000e-\\u007f]", RegexOptions.Compiled);
         private readonly Regex RegexRegularEscapeCharacter = new Regex(@"[\$\(\)\*\+\.\[\]\?\\\^\{\}\|#]", RegexOptions.Compiled);
         private Regex RegexTempCodeValue;
@@ -123,7 +123,7 @@ namespace SC2_UnicodeConverter
         /// 附加文本配置
         /// </summary>
         private SC2_StructConvertMode.EnumAdditionType EnumAdditionTypeConfiguration { get; set; }
-        
+
         /// <summary>
         /// 是否保持UI
         /// </summary>
@@ -138,12 +138,21 @@ namespace SC2_UnicodeConverter
         /// 是否设置输入高亮
         /// </summary>
         public bool IsKeepInputHighlight { get; set; }
+
         /// <summary>
         /// 是否设置输出高亮
         /// </summary>
         public bool IsKeepOutputHighlight { get; set; }
 
+        /// <summary>
+        /// 是否为自动切换到自定义
+        /// </summary>
         public bool IsAutoChangeToCustom { get; set; }
+
+        /// <summary>
+        /// 正则表达式有效
+        /// </summary>
+        public bool IsRegularExpressionValid { get; private set; }
 
         /// <summary>
         /// 预处理的前缀正则表达式
@@ -196,10 +205,6 @@ namespace SC2_UnicodeConverter
         /// </summary>
         public Dictionary<SC2_StructConvertMode.EnumCodeRuleType, DelegateCodeFuncDecodeFormatCharacters> FuncDecodeFormatCharactersCoding { get; private set; }
 
-        /// <summary>
-        /// 正则表达式有效
-        /// </summary>
-        public bool IsRegularExpressionValid { get; private set; }
         #endregion
 
         #region 构造函数
@@ -208,12 +213,16 @@ namespace SC2_UnicodeConverter
         /// 构造函数
         /// </summary>
         public SC2_UnicodeConverter_Window()
-        {            
+        {
             InitDelegate();
             IsRegularExpressionValid = true;
             IsKeepUI = true;
             MainWindow = this;
+            IsKeepInputHighlight = true;
+            IsKeepOutputHighlight = true;
             InitializeComponent();
+            IsKeepInputHighlight = false;
+            IsKeepOutputHighlight = false;
             VersionInfo = FileVersionInfo.GetVersionInfo(System.Windows.Forms.Application.ExecutablePath);
             MulitiLanguageSupport = new WH_MultiLanguageSupport();
             List<string> languageCultures = new List<string>();
@@ -919,7 +928,7 @@ namespace SC2_UnicodeConverter
             IsAutoChangeToCustom = true;
             SC2_StructConvertMode.StructConvertModeDefaultList["UIText_ToggleButton_CustomConfig_Header"].ModeButton.IsChecked = true;
         }
-        
+
         /// <summary>
         /// 生成正则表达式格式的字符串
         /// </summary>
@@ -939,76 +948,43 @@ namespace SC2_UnicodeConverter
             try
             {
 #endif
-                if (IsKeepInputHighlight) return;
-                bool isPrefixNull = string.IsNullOrEmpty(TextBox_Prefix.Text);
-                bool isSuffixNull = string.IsNullOrEmpty(TextBox_Suffix.Text);
-                bool isRegularNull = string.IsNullOrEmpty(TextBox_RegularExpression.Text);
-                XNamespace xmlns = "http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008";
-                XElement ruleSet = new XElement(xmlns + "RuleSet");
-                XElement syntaxDefinition = new XElement(xmlns + "SyntaxDefinition",
-                    new XAttribute("name", "EncodeInputHighlight"),
-                    ruleSet
-                    );
-                XDocument xshd = new XDocument(
-                    new XDeclaration("1.0", "utf-8", "yes"),
-                    syntaxDefinition);
+            if (IsKeepInputHighlight) return;
+            bool isPrefixNull = string.IsNullOrEmpty(TextBox_Prefix.Text);
+            bool isSuffixNull = string.IsNullOrEmpty(TextBox_Suffix.Text);
+            bool isRegularNull = string.IsNullOrEmpty(TextBox_RegularExpression.Text);
+            XNamespace xmlns = "http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008";
+            XElement ruleSet = new XElement(xmlns + "RuleSet");
+            XElement syntaxDefinition = new XElement(xmlns + "SyntaxDefinition",
+                new XAttribute("name", "InputHighlight"),
+                ruleSet
+                );
+            XDocument xshd = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                syntaxDefinition);
+            switch (EnumProcessingModeConfiguration)
+            {
+                case EnumProcessingMode.Encode:
+                    XElement rule = new XElement(xmlns + "Rule");
+                    SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.RegexMath].SetConfig(rule);
+                    if (isRegularNull)
+                    {
+                        rule.Add(@"[\s\S]+");
+                    }
+                    else
+                    {
+                        if (IsRegularExpressionValid) rule.Add(TextBox_RegularExpression.Text);
+                    }
+                    ruleSet.Add(rule);
+                    break;
+                case EnumProcessingMode.Decode:
+                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    //SetAdditionalTextHighlight(xmlns, ruleSet);
+                    break;
+                default:
+                    break;
 
-                XElement rule;
-                switch (EnumProcessingModeConfiguration)
-                {
-                    case EnumProcessingMode.Encode:
-                        rule = new XElement(xmlns + "Rule");
-                        SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.InputEncode].SetConfig(rule);
-                        if (isRegularNull)
-                        {
-                            rule.Add(@"[\s\S]+");
-                        }
-                        else
-                        {
-                            rule.Add("(" + TextBox_RegularExpression.Text + ")+");
-                        }
-                        ruleSet.Add(rule);
-                        break;
-                    case EnumProcessingMode.Decode:
-                        if (isPrefixNull && isSuffixNull) break;
-                        string codeRegexString = "(" + SC2_StructConvertMode.ConvertScaleRegularString[EnumCodeRuleTypeConfiguration][EnumConvertScaleConfiguration] + ")+";
-                        if (!isPrefixNull)
-                        {
-                            string regular = PreparedPrefixRegexString + "(?=" + codeRegexString + PreparedSuffixRegexString + ")";
-                            rule = new XElement(xmlns + "Rule");
-                            SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.InputDecodePrefix].SetConfig(rule);
-                            rule.Add(regular);
-                            ruleSet.Add(rule);
-                        }
-                        if (!isSuffixNull)
-                        {
-                            string regular = "(?<=" + PreparedPrefixRegexString + codeRegexString + ")" + PreparedSuffixRegexString;
-                            rule = new XElement(xmlns + "Rule");
-                            SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.InputDecodeSuffix].SetConfig(rule);
-                            rule.Add(regular);
-                            ruleSet.Add(rule);
-                        }
-                        if (!isSuffixNull)
-                        {
-                            string regular = "(?<=" + PreparedPrefixRegexString + ")" + codeRegexString + "(?=" + PreparedSuffixRegexString + ")";
-                            try
-                            {
-                                Regex regex = new Regex(regular);
-                                rule = new XElement(xmlns + "Rule");
-                                SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.InputDecodeSuffix].SetConfig(rule);
-                                rule.Add(regular);
-                                ruleSet.Add(rule);
-                            }
-                            catch
-                            {
-                            }
-                        }
-
-                        break;
-                    default:
-                        break;
-                }
-                TextEditor_Input.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd.CreateReader(), HighlightingManager.Instance);
+            }
+            TextEditor_Input.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd.CreateReader(), HighlightingManager.Instance);
 #if !DEBUG
             }
             catch (Exception e)
@@ -1032,7 +1008,139 @@ namespace SC2_UnicodeConverter
         /// </summary>
         public void SetOutputHighlight()
         {
+#if !DEBUG
+            try
+            {
+#endif
+            if (IsKeepOutputHighlight) return;
+            bool isPrefixNull = string.IsNullOrEmpty(TextBox_Prefix.Text);
+            bool isSuffixNull = string.IsNullOrEmpty(TextBox_Suffix.Text);
+            bool isRegularNull = string.IsNullOrEmpty(TextBox_RegularExpression.Text);
+            XNamespace xmlns = "http://icsharpcode.net/sharpdevelop/syntaxdefinition/2008";
+            XElement ruleSet = new XElement(xmlns + "RuleSet");
+            XElement syntaxDefinition = new XElement(xmlns + "SyntaxDefinition",
+                new XAttribute("name", "OutputHighlight"),
+                ruleSet
+                );
+            XDocument xshd = new XDocument(
+                new XDeclaration("1.0", "utf-8", "yes"),
+                syntaxDefinition);
+            switch (EnumProcessingModeConfiguration)
+            {
+                case EnumProcessingMode.Encode:
+                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    //SetAdditionalTextHighlight(xmlns, ruleSet);
+                    break;
+                case EnumProcessingMode.Decode:
+                    XElement rule = new XElement(xmlns + "Rule");
+                    SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.RegexMath].SetConfig(rule);
+                    if (isRegularNull)
+                    {
+                        rule.Add(@"[\s\S]+");
+                    }
+                    else
+                    {
+                        if (IsRegularExpressionValid) rule.Add(TextBox_RegularExpression.Text);
+                    }
+                    ruleSet.Add(rule);
+                    break;
+                default:
+                    break;
+            }
+            TextEditor_Output.SyntaxHighlighting = ICSharpCode.AvalonEdit.Highlighting.Xshd.HighlightingLoader.Load(xshd.CreateReader(), HighlightingManager.Instance);
+#if !DEBUG
+            }
+            catch (Exception e)
+            {
+                //当前堆栈信息
+                System.Diagnostics.StackTrace st = new System.Diagnostics.StackTrace();
+                string errMsg = e.Message + "\r\n\r\n" + App.CurrentLanguage["ErrorText_ALL_Exception_CallStack_Header"];
+                foreach (StackFrame select in st.GetFrames())
+                {
+                    if (System.Diagnostics.StackFrame.OFFSET_UNKNOWN == select.GetILOffset()) break;
+                    errMsg += "\r\n" + select.GetMethod().Name;
+                }
+                MessageBox.Show(errMsg, App.CurrentLanguage["ErrorText_ALL_Exception_MessageBox_Caption"] as string, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
+            }
+#endif
+        }
 
+        /// <summary>
+        /// 转码字符高亮设置
+        /// </summary>
+        /// <param name="xmlns">XML命名空间</param>
+        /// <param name="ruleSet">规则集</param>
+        /// <param name="isPrefixNull">前缀为空</param>
+        /// <param name="isSuffixNull">后缀为空</param>
+        private void SetTranscodeCodeHighlight(XNamespace xmlns, XElement ruleSet, bool isPrefixNull, bool isSuffixNull)
+        {
+            XElement rule;
+            string regular;
+            string codeRegexString = SC2_StructConvertMode.ConvertScaleRegularString[EnumCodeRuleTypeConfiguration][EnumConvertScaleConfiguration];
+            if (!isPrefixNull)
+            {
+                regular = PreparedPrefixRegexString + "(?=" + codeRegexString + PreparedSuffixRegexString + ")";
+                rule = new XElement(xmlns + "Rule");
+                SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.DecodePrefix].SetConfig(rule);
+                rule.Add(regular);
+                ruleSet.Add(rule);
+            }
+            if (!isSuffixNull)
+            {
+                regular = "(?<=" + PreparedPrefixRegexString + codeRegexString + ")" + PreparedSuffixRegexString;
+                rule = new XElement(xmlns + "Rule");
+                SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.DecodeSuffix].SetConfig(rule);
+                rule.Add(regular);
+                ruleSet.Add(rule);
+            }
+            regular = (isPrefixNull ? "" : "(?<=" + PreparedPrefixRegexString + ")") + codeRegexString + (isSuffixNull ? "" : "(?=" + PreparedSuffixRegexString + ")");
+            rule = new XElement(xmlns + "Rule");
+            SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.DecodeCode].SetConfig(rule);
+            rule.Add(regular);
+            ruleSet.Add(rule);
+        }
+
+        /// <summary>
+        /// 正则匹配字符高亮设置
+        /// </summary>
+        /// <param name="xmlns">XML命名空间</param>
+        /// <param name="ruleSet">规则集</param>
+        private void SetAdditionalTextHighlight(XNamespace xmlns, XElement ruleSet)
+        {
+            XElement rule = new XElement(xmlns + "Rule");
+            SC2_HighlightConfig.ConfigList[SC2_HighlightConfig.EnumConfigTargetType.RegexMath].SetConfig(rule);
+            rule.Add(GetAdditionalHighlightRegexString(EnumAdditionTypeConfiguration, TextBox_RegularExpression.Text));
+            ruleSet.Add(rule);
+        }
+
+        /// <summary>
+        /// 获取编码字符匹配正则字符串
+        /// </summary>
+        /// <param name="additionType">附加文本类型</param>
+        /// <param name="baseString">基本字符串</param>
+        /// <returns>正则表达式</returns>
+        private static string GetAdditionalHighlightRegexString(SC2_StructConvertMode.EnumAdditionType additionType, string baseString)
+        {
+            switch (additionType)
+            {
+                case SC2_StructConvertMode.EnumAdditionType.DebugMsg:
+                    return "(?-x)(?<=TriggerDebugOutput\\s*\\(\\s*\\d+,\\s*StringToText\\s*\\(\\s*\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\"\\s*\\))";
+                case SC2_StructConvertMode.EnumAdditionType.AsText:
+                    return "(?-x)(?<=StringToText\\s*\\(\\s*\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\"\\s*\\))";
+                case SC2_StructConvertMode.EnumAdditionType.AsString:
+                    return "(?-x)(?<=\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\")";
+                case SC2_StructConvertMode.EnumAdditionType.OrigionalContent:
+                    if (string.IsNullOrEmpty(baseString))
+                    {
+                        return @"[\s\S]+";
+                    }
+                    else
+                    {
+                        return baseString;
+                    }
+                default:
+                    throw new Exception("Error enum value additionType!");
+            }
         }
 
         /// <summary>
@@ -1064,9 +1172,9 @@ namespace SC2_UnicodeConverter
             }
 #endif
         }
-#endregion
+        #endregion
 
-#region 控件事件
+        #region 控件事件
 
         /// <summary>
         /// 窗口初始化事件
@@ -1122,7 +1230,7 @@ namespace SC2_UnicodeConverter
                             }
                         }
                     }
-                    if (config["CustomMode"]!= null)
+                    if (config["CustomMode"] != null)
                     {
                         SC2_StructConvertMode modeClass = JsonConvert.DeserializeObject<SC2_StructConvertMode>(config["CustomMode"].ToString());
                         SC2_StructConvertMode.StructConvertModeDefaultList["UIText_ToggleButton_CustomConfig_Header"].CopyProperty(modeClass);
@@ -1247,6 +1355,7 @@ namespace SC2_UnicodeConverter
             }
             IsKeepConvertMode = true;
             SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
             IsKeepConvertMode = false;
         }
@@ -1330,6 +1439,8 @@ namespace SC2_UnicodeConverter
         private void ComboBox_CharacterCodeRuleType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnumCodeRuleTypeConfiguration = (SC2_StructConvertMode.EnumCodeRuleType)(ComboBox_CharacterCodeRuleType.SelectedItem as ComboBoxItem).Tag;
+            SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
 
@@ -1341,6 +1452,8 @@ namespace SC2_UnicodeConverter
         private void ComboBox_ConvertingScaleType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnumConvertScaleConfiguration = (SC2_StructConvertMode.EnumConvertScale)(ComboBox_ConvertingScaleType.SelectedItem as ComboBoxItem).Tag;
+            SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
 
@@ -1352,6 +1465,8 @@ namespace SC2_UnicodeConverter
         private void ComboBox_AdditionTextType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             EnumAdditionTypeConfiguration = (SC2_StructConvertMode.EnumAdditionType)ComboBox_AdditionTextType.SelectedIndex;
+            SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
 
@@ -1364,6 +1479,7 @@ namespace SC2_UnicodeConverter
         {
             PreparedPrefixRegexString = GenRegexFormateString(TextBox_Prefix.Text);
             SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
 
@@ -1376,6 +1492,7 @@ namespace SC2_UnicodeConverter
         {
             PreparedSuffixRegexString = GenRegexFormateString(TextBox_Suffix.Text);
             SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
 
@@ -1399,6 +1516,7 @@ namespace SC2_UnicodeConverter
                 IsRegularExpressionValid = false;
             }
             SetInputHightlight();
+            SetOutputHighlight();
             RefreshUI();
         }
         /// <summary>
@@ -1414,7 +1532,7 @@ namespace SC2_UnicodeConverter
             IsKeepConvertMode = false;
         }
 
-#endregion
+        #endregion
 
     }
 }

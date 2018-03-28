@@ -4,8 +4,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 15.0.27428.2002
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SC2_UnicodeConverter", "SC2_UnicodeConverter\SC2_UnicodeConverter.csproj", "{70B64A9F-245D-4869-A0FB-976A7E2FFA8D}"
+	ProjectSection(ProjectDependencies) = postProject
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1} = {6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WH_CommonControlLibrary", "WH_CommonControlLibrary\WH_CommonControlLibrary.csproj", "{2782F9AD-9163-4556-B682-4B10E0569C72}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.AvalonEdit", "AvalonEdit\ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj", "{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +66,24 @@ Global
 		{2782F9AD-9163-4556-B682-4B10E0569C72}.Release|WithNRefactory.Build.0 = Release|Any CPU
 		{2782F9AD-9163-4556-B682-4B10E0569C72}.Release|x86.ActiveCfg = Release|x86
 		{2782F9AD-9163-4556-B682-4B10E0569C72}.Release|x86.Build.0 = Release|x86
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Any CPU.ActiveCfg = Debug|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Any CPU.Build.0 = Debug|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net35.ActiveCfg = Debug|Net35
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net35.Build.0 = Debug|Net35
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net40.ActiveCfg = Debug|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|Net40.Build.0 = Debug|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|WithNRefactory.ActiveCfg = Debug|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|WithNRefactory.Build.0 = Debug|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Debug|x86.ActiveCfg = Debug|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Any CPU.ActiveCfg = Release|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Any CPU.Build.0 = Release|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Net35.ActiveCfg = Release|Net35
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Net35.Build.0 = Release|Net35
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Net40.ActiveCfg = Release|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|Net40.Build.0 = Release|Net40
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|WithNRefactory.ActiveCfg = Release|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|WithNRefactory.Build.0 = Release|WithNRefactory
+		{6C55B776-26D4-4DB3-A6AB-87E783B2F3D1}.Release|x86.ActiveCfg = Release|WithNRefactory
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
