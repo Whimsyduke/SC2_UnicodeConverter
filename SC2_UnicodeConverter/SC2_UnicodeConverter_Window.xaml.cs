@@ -86,9 +86,12 @@ namespace SC2_UnicodeConverter
         #endregion
 
         #region 字段
-        private readonly Regex RegexDecodeString = new Regex("(?<=\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\")", RegexOptions.Compiled);
-        private readonly Regex RegexDecodeText = new Regex("(?<=StringToText\\s*\\(\\s*\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\"\\s*\\))", RegexOptions.Compiled);
-        private readonly Regex RegexDecodeDebugMsg = new Regex("(?<=TriggerDebugOutput\\s*\\(\\s*\\d+,\\s*StringToText\\s*\\(\\s*\")[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*(?=\"\\s*\\)\\s*,)", RegexOptions.Compiled);
+        // (?<=")[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*(?=")
+        // (?<=StringToText\s*\(\s*")[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*(?="\s*\))
+        // (?<=TriggerDebugOutput\s*\(\s*\d+,\s*StringToText\s*\(\s*")[^"\\\r\n]*(?:\\.[^"\\\r\n]*)*(?="\s*\)\s*,)
+        private readonly Regex RegexDecodeString = new Regex(@"(?<="")[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*(?="")", RegexOptions.Compiled);
+        private readonly Regex RegexDecodeText = new Regex(@"(?<=StringToText\s*\(\s*"")[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*(?=""\s*\))", RegexOptions.Compiled);
+        private readonly Regex RegexDecodeDebugMsg = new Regex(@"(?<=TriggerDebugOutput\s*\(\s*\d+,\s*StringToText\s*\(\s*"")[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*(?=""\s*\)\s*,)", RegexOptions.Compiled);
         private readonly Regex RegexIsProcessASCII = new Regex("[\\u0000-\\u0009\\u000b\\u000c\\u000e-\\u007f]", RegexOptions.Compiled);
         private readonly Regex RegexRegularEscapeCharacter = new Regex(@"[\$\(\)\*\+\.\[\]\?\\\^\{\}\|#]", RegexOptions.Compiled);
         private Regex RegexTempCodeValue;
@@ -859,11 +862,11 @@ namespace SC2_UnicodeConverter
                     case SC2_StructConvertMode.EnumCodeRuleType.Utf16:
                         if (value >= 0xD800 && value <= 0xDFFF)
                         {
-                            buff.AddRange(BitConverter.GetBytes(value).Take(2));
+                            buff.AddRange(BitConverter.GetBytes(value));
                         }
                         else
                         {
-                            buff.AddRange(BitConverter.GetBytes(value));
+                            buff.AddRange(BitConverter.GetBytes(value).Take(2));
                         }
                         break;
                     case SC2_StructConvertMode.EnumCodeRuleType.Utf32:
@@ -977,8 +980,8 @@ namespace SC2_UnicodeConverter
                     ruleSet.Add(rule);
                     break;
                 case EnumProcessingMode.Decode:
-                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
-                    //SetAdditionalTextHighlight(xmlns, ruleSet);
+                    //SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    SetAdditionalTextHighlight(xmlns, ruleSet);
                     break;
                 default:
                     break;
@@ -1028,8 +1031,8 @@ namespace SC2_UnicodeConverter
             switch (EnumProcessingModeConfiguration)
             {
                 case EnumProcessingMode.Encode:
-                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
-                    //SetAdditionalTextHighlight(xmlns, ruleSet);
+                    //SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    SetAdditionalTextHighlight(xmlns, ruleSet);
                     break;
                 case EnumProcessingMode.Decode:
                     XElement rule = new XElement(xmlns + "Rule");
@@ -1121,23 +1124,25 @@ namespace SC2_UnicodeConverter
         /// <returns>正则表达式</returns>
         private static string GetAdditionalHighlightRegexString(SC2_StructConvertMode.EnumAdditionType additionType, string baseString)
         {
+            string use;
+            if (string.IsNullOrEmpty(baseString))
+            {
+                use =  @"[\s\S]+";
+            }
+            else
+            {
+                use = baseString;
+            }
             switch (additionType)
             {
                 case SC2_StructConvertMode.EnumAdditionType.DebugMsg:
-                    return "(?-x)(?<=TriggerDebugOutput\\s*\\(\\s*\\d+,\\s*StringToText\\s*\\(\\s*\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\"\\s*\\))";
+                    return @"(?-x)(?<=TriggerDebugOutput\s*\(\s*\d+,\s*StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\)\s*,)";
                 case SC2_StructConvertMode.EnumAdditionType.AsText:
-                    return "(?-x)(?<=StringToText\\s*\\(\\s*\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\"\\s*\\))";
+                    return @"(?-x)(?<=StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\))";
                 case SC2_StructConvertMode.EnumAdditionType.AsString:
-                    return "(?-x)(?<=\"[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*)" + baseString + "(?=[^\"\\\\\\r\\n]*(?:\\\\.[^\"\\\\\\r\\n]*)*\")";
+                    return @"(?-x)(?<=""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?"")";
                 case SC2_StructConvertMode.EnumAdditionType.OrigionalContent:
-                    if (string.IsNullOrEmpty(baseString))
-                    {
-                        return @"[\s\S]+";
-                    }
-                    else
-                    {
-                        return baseString;
-                    }
+                    return use;
                 default:
                     throw new Exception("Error enum value additionType!");
             }
