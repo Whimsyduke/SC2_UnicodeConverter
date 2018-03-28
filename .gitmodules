@@ -1,0 +1,8 @@
+[submodule "AvalonEdit"]
+	path = AvalonEdit
+	url = https://github.com/Whimsyduke/AvalonEdit.SC2_UnicodeConverter.git
+	branch = SC2_UnicodeConverter
+[submodule "Fluent.Ribbon"]
+	path = Fluent.Ribbon
+	url = https://github.com/Whimsyduke/Fluent.Ribbon.SC2_UnicodeConverter.git
+	branch = SC2_UnicodeConvert
