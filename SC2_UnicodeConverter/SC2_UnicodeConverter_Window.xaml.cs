@@ -980,7 +980,7 @@ namespace SC2_UnicodeConverter
                     ruleSet.Add(rule);
                     break;
                 case EnumProcessingMode.Decode:
-                    //SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
                     SetAdditionalTextHighlight(xmlns, ruleSet);
                     break;
                 default:
@@ -1031,7 +1031,7 @@ namespace SC2_UnicodeConverter
             switch (EnumProcessingModeConfiguration)
             {
                 case EnumProcessingMode.Encode:
-                    //SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
+                    SetTranscodeCodeHighlight(xmlns, ruleSet, isPrefixNull, isSuffixNull);
                     SetAdditionalTextHighlight(xmlns, ruleSet);
                     break;
                 case EnumProcessingMode.Decode:
