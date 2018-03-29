@@ -5,4 +5,4 @@
 [submodule "Fluent.Ribbon"]
 	path = Fluent.Ribbon
 	url = https://github.com/Whimsyduke/Fluent.Ribbon.SC2_UnicodeConverter.git
-	branch = SC2_UnicodeConvert
+	branch = SC2_UnicodeConverter
