@@ -1127,7 +1127,7 @@ namespace SC2_UnicodeConverter
             string use;
             if (string.IsNullOrEmpty(baseString))
             {
-                use =  @"[\s\S]+";
+                use =  @"[\s\S]";
             }
             else
             {
@@ -1136,11 +1136,11 @@ namespace SC2_UnicodeConverter
             switch (additionType)
             {
                 case SC2_StructConvertMode.EnumAdditionType.DebugMsg:
-                    return @"(?-x)(?<=TriggerDebugOutput\s*\(\s*\d+,\s*StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?:[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\)\s*,)(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\)\s*,)";
+                    return @"(?-x)(?<=TriggerDebugOutput\s*\(\s*\d+,\s*StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\)\s*,)";
                 case SC2_StructConvertMode.EnumAdditionType.AsText:
-                    return @"(?-x)(?<=StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?:[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\))(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\))";
+                    return @"(?-x)(?<=StringToText\s*\(\s*""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?""\s*\))";
                 case SC2_StructConvertMode.EnumAdditionType.AsString:
-                    return @"(?-x)(?<=""[^""\\\r\n]*?)" + use + @"(?:[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?"")(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?"")";
+                    return @"(?-x)(?<=""[^""\\\r\n]*?)" + use + @"(?=[^""\\\r\n]*(?:\\.[^""\\\r\n]*)*?"")";
                 case SC2_StructConvertMode.EnumAdditionType.OrigionalContent:
                     return use;
                 default:
