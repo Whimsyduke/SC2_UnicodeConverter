@@ -947,6 +947,7 @@ namespace SC2_UnicodeConverter
         /// </summary>
         public void SetInputHightlight()
         {
+#if Highlight
 #if !DEBUG
             try
             {
@@ -1003,6 +1004,7 @@ namespace SC2_UnicodeConverter
                 MessageBox.Show(errMsg, App.CurrentLanguage["ErrorText_ALL_Exception_MessageBox_Caption"] as string, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
 #endif
+#endif
         }
 
 
@@ -1011,6 +1013,7 @@ namespace SC2_UnicodeConverter
         /// </summary>
         public void SetOutputHighlight()
         {
+#if Highlight
 #if !DEBUG
             try
             {
@@ -1065,6 +1068,7 @@ namespace SC2_UnicodeConverter
                 }
                 MessageBox.Show(errMsg, App.CurrentLanguage["ErrorText_ALL_Exception_MessageBox_Caption"] as string, MessageBoxButton.OK, MessageBoxImage.Error, MessageBoxResult.OK);
             }
+#endif
 #endif
         }
 
@@ -1177,9 +1181,9 @@ namespace SC2_UnicodeConverter
             }
 #endif
         }
-        #endregion
+#endregion
 
-        #region 控件事件
+#region 控件事件
 
         /// <summary>
         /// 窗口初始化事件
@@ -1537,7 +1541,7 @@ namespace SC2_UnicodeConverter
             IsKeepConvertMode = false;
         }
 
-        #endregion
+#endregion
 
     }
 }
